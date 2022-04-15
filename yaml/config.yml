@@ -1,0 +1,31 @@
+general_settings:
+  ## MANDATORY. Name of your pihole docker container. It most probably should be: syncthing
+  syncthing_container_name: <INSERT YOUR SYNCTHING CONTAINER NAME HERE>
+  ## MANDATORY. The URL you use to access the GUI. Note that if you are accessing the local syncthing instance, you need to have both containers be in the same docker network, and then just use the name of the syncthing container like http://syncthing:8384
+  # ex. http://192.168.100.2:8384 or https://sync.mydomain.com
+  url: <INSERT YOUR SYNCTHING GUI URL>
+  ## MANDATORY. You syncthing API key
+  api_key: <INSERT YOUR SYNCTHING API KEY>
+  ## DELETE if you want all of the folders to be scanned. Please note that the FOLDER ID should be placed here
+  folders_to_scan:
+    - 1xfxls-aa0
+    - 2xfxls-bb0
+
+## DELETE THE ONE YOU DON'T NEED. This is the schedule when you want the script to run and call the Preview Generator commands
+backup_schedule:
+  ## DELETE IF NOT NEEDED
+  weekly:
+    ## available values are MON, TUE, WED, THU, FRI, SAT, SUN.
+    day: <INPUT DAY HERE>
+    ## Use HH:mm format and wrap the time in quatation marks e.g. "14:28"
+    time: <HH:mm>
+  ## DELETE IF NOT NEEDED
+  daily:
+    ## Use HH:mm format and wrap the time in quatation marks e.g. "14:28"
+    time: <HH:mm>
+  ## DELETE IF NOT NEEDED. This schedule will run the preview generation command, on the specified day on the last week of the current month
+  last_day_of_month:
+    ## available values are MON, TUE, WED, THU, FRI, SAT, SUN.
+    day: <INPUT DAY HERE>
+    ## Use HH:mm format and wrap the time in quatation marks e.g. "14:28"
+    time: <HH:mm>

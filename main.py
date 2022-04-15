@@ -2,11 +2,10 @@ import calendar
 from datetime import datetime
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
-import containerChecks
 import sqliteDB
 import statusController
 import util
-
+import configInit
 
 def runPostRequest(config):
     header = {"X-API-Key": config.apiKey}
@@ -81,7 +80,7 @@ def mainLastDayOfMonth():
 
 def startMainProcess():
     print("\n\nCOMMENCING THE SCHEDULED TASK TO PING SYNCTHING FOR BACKUP..\n")
-    config = containerChecks.mainChecks()
+    config = configInit.initConfig()
     runPostRequest(config)
 
 
@@ -92,7 +91,7 @@ def main():
     print("Initializing sqlite database..")
     sqliteDB.init_db(r"/sqldb/nova.db")
 
-    config = containerChecks.mainChecks()
+    config = configInit.initConfig()
 
     scheduler = BackgroundScheduler({'apscheduler.timezone': config.tz})
 

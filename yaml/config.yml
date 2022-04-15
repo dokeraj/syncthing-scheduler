@@ -1,6 +1,4 @@
 general_settings:
-  ## MANDATORY. Name of your pihole docker container. It most probably should be: syncthing
-  syncthing_container_name: <INSERT YOUR SYNCTHING CONTAINER NAME HERE>
   ## MANDATORY. The URL you use to access the GUI. Note that if you are accessing the local syncthing instance, you need to have both containers be in the same docker network, and then just use the name of the syncthing container like http://syncthing:8384
   # ex. http://192.168.100.2:8384 or https://sync.mydomain.com
   url: <INSERT YOUR SYNCTHING GUI URL>

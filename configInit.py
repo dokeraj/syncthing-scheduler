@@ -18,7 +18,6 @@ class ConfSchedule:
 
 @dataclass
 class Config:
-    syncthingContainerName: str
     url: str  ## example: http://syncthing:8384
     apiKey: str
     foldersToScan: List[str]
@@ -29,15 +28,10 @@ class Config:
     tz: str
 
 
-conf = Config(None, None, None, None, None, None, None, None, None)
+conf = Config(None, None, None, None, None, None, None, None)
 
 
 def checkMandatoryFields():
-    if conf.syncthingContainerName is None:
-        errMsg = "ERROR: Name of the Syncthing container must be inputted!"
-        print(f"{errMsg} Now exiting!")
-        sqliteDB.update_db(500, errMsg, util.getCurrentDateTime())
-        sys.exit()
     if conf.url is None:
         errMsg = "ERROR: Url of the Syncthing GUI must be inputted!"
         print(f"{errMsg} Now exiting!")
@@ -73,7 +67,6 @@ def checkMandatoryFields():
 
 def printSetConfig():
     resultStr = "The following config params were set:\n"
-    resultStr += f"- syncthing_container_name = {conf.syncthingContainerName}\n"
     resultStr += f"- url = {conf.url}\n"
     resultStr += f"- api_key = {conf.apiKey}\n"
     if conf.allFolders is False:
@@ -105,8 +98,6 @@ def initConfig():
                     for k, v in doc.items():
                         if k == "general_settings" and v is not None:
                             for generalKey, generalVal in v.items():
-                                if generalKey == "syncthing_container_name" and generalVal != "<INSERT YOUR SYNCTHING CONTAINER NAME HERE>":
-                                    conf.syncthingContainerName = generalVal
                                 if generalKey == "url" and generalVal != "<INSERT YOUR SYNCTHING GUI URL>":
                                     conf.url = generalVal
                                 if generalKey == "api_key" and generalVal != "<INSERT YOUR SYNCTHING API KEY>":

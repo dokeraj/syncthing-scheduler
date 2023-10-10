@@ -8,6 +8,8 @@ RUN pip3 install six
 RUN pip3 install waitress
 RUN pip3 install wheel
 RUN pip3 install environs
+RUN pip3 install docker
+RUN pip3 install macaddress
 
 
 RUN mkdir /yaml

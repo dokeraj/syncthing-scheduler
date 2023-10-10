@@ -27,3 +27,8 @@ backup_schedule:
     day: <INPUT DAY HERE>
     ## Use HH:mm format and wrap the time in quatation marks e.g. "14:28"
     time: <HH:mm>
+
+## DELETE THE ONE YOU DON'T NEED. If you have a pc where you will receive the backup files and it's not 24/7 turned on - you can add the mac address and a WOL packet will be sent
+wake_on_lan_settings:
+  # ex. 01:02:03:0A:0B:0C
+  mac_address: <INSERT YOUR BACKUP PC MAC ADDRESS>

@@ -6,7 +6,8 @@ import util
 import yaml
 import sqliteDB
 from environs import Env
-
+import os
+import macaddress
 
 @dataclass
 class ConfSchedule:
@@ -26,9 +27,16 @@ class Config:
     dailySchedule: ConfSchedule
     lastDayOfMonthSchedule: ConfSchedule
     tz: str
+    WOLImage: str
+    WOLMacAddr: str
 
 
-conf = Config(None, None, None, None, None, None, None, None)
+# can be found here: https://hub.docker.com/r/r0gger/docker-wake-on-lan/tags
+# hidden env var to set the image of the wake on lan docker image
+WOL_R0GGER_IMAGE = os.getenv("WOL_R0GGER_IMAGE", "r0gger/docker-wake-on-lan:latest")
+
+
+conf = Config(None, None, None, None, None, None, None, None, WOL_R0GGER_IMAGE, None)
 
 
 def checkMandatoryFields():
@@ -84,6 +92,9 @@ def printSetConfig():
     if conf.lastDayOfMonthSchedule is not None:
         resultStr += f"- last_day_of_month.day = {conf.lastDayOfMonthSchedule.day}\n"
         resultStr += f"- last_day_of_month.time = {conf.lastDayOfMonthSchedule.time}\n"
+    if conf.WOLMacAddr is not None:
+        resultStr += f"Wake On Lan Settings:\n"
+        resultStr += f"- wake_on_lan_settings.mac_address = {conf.WOLMacAddr}\n"
 
     print(resultStr)
 
@@ -174,6 +185,19 @@ def initConfig():
                                                 sys.exit()
 
                                     conf.lastDayOfMonthSchedule = lastDaySchedule
+
+                        if k == "wake_on_lan_settings" and v is not None:
+                            for wolKey, wolVal in v.items():
+                                if wolKey == "mac_address" and wolVal != "<INSERT YOUR BACKUP PC MAC ADDRESS>":
+                                    macAddr = None
+                                    try:
+                                        macAddr = macaddress.EUI48(wolVal)
+                                        macAddr = str(macAddr).replace('-', ':')
+                                    except ValueError as error:
+                                        print(f"MAC address: {macAddr} is not a valid MAC address! Now exiting!")
+                                        sys.exit()
+                                    conf.WOLMacAddr = macAddr
+
             env = Env()
             try:
                 conf.tz = env('TZ')
